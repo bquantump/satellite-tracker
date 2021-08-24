@@ -91,9 +91,27 @@ class App extends Component {
     selectStation = (station) => {
         this.handleRemoveAllSelected();
         const newSelected = this.state.selected.concat(station);
-        this.setState({selected: newSelected});
-        this.postSatSim();
-        this.engine.addOrbit(station);
+        //this.setState({selected: newSelected});
+        //this.engine.addOrbit(station);
+        let is_good = this.postSatSim(station);
+        is_good.then(response => {
+            console.log(response.status);
+            if (response.status == 400) 
+            {
+              alert("No pass for satellite " + station.name + " over Microsoft Ground Sation WestUS"); 
+              return false;
+            }
+            else if(response.status != 202)
+            {
+              throw new Error("Unexpected HTTP status " + response.status);
+            }
+            else
+            {
+                this.setState({selected: newSelected});
+                this.engine.addOrbit(station);
+            }
+        })
+
     }
 
     deselectStation = (station) => {
@@ -109,20 +127,16 @@ class App extends Component {
         //this.addAmsatSets();
     }
 
-    postSatSim = () => {
-        let payload = {"ground_station": {"name": "qc", "latitude_degrees": 154.0, "elevation_m": 3.21, "longitude_degrees": 56.0}, "satellite": {"name": "startlink", "tle_line1": "one two three", "tle_line2": "four five six"}}
-          fetch(this.restUrl, {
+    postSatSim = (station) => {
+        let payload = {"ground_station": {"name": "Quincy", "latitude_degrees": 47.239300, "elevation_m": 392, "longitude_degrees": -119.8855}, "satellite": {"name": station.name, "tle_line1": station.tle1, "tle_line2": station.tle2}}
+        return fetch(this.restUrl, {
             method: "PUT",
             body: JSON.stringify(payload),
             headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Authorization, Lang", "Access-Control-Allow-Methods": "POST,GET,PUT,DELETE", "Content-type": "application/json; charset=UTF-8"}
+          }).then((response) => {
+            return response;
           })
-          .then(function(response) {
-              console.log(response.status);
-              if (response.status != 202) {
-                throw new Error("HTTP status " + response.status);
-              }
-          })
-          .then(json => console.log(json));
+
     }
 
     addCelestrakSets = () => {

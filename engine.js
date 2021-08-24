@@ -297,8 +297,8 @@ export class Engine {
 
     _setupLights = () => {
         const sun = new THREE.PointLight(0xffffff, 1, 0);
-        //sun.position.set(0, 0, -149400000);
-        sun.position.set(0, 59333894, -137112541);
+        sun.position.set(0, 0, -149400000);
+        //sun.position.set(0, 59333894, -137112541);
 
         const ambient = new THREE.AmbientLight(0x909090);
 
