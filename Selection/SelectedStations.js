@@ -6,7 +6,7 @@ export default function({selected, onRemoveStation, onRemoveAll, onStationClick}
 
     return (
         <div className='Selected'>
-            <h2>Selected</h2>
+            <h2>Selected For Simulation</h2>
             <p className='SmallButton' onClick={onRemoveAll}>Clear all</p>
             {selected.map((station, i) => {
                 return <StationCard 
