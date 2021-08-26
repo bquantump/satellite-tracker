@@ -98,7 +98,7 @@ class App extends Component {
             console.log(response.status);
             if (response.status == 400) 
             {
-              alert("No pass for satellite " + station.name + " over Microsoft Ground Sation WestUS"); 
+              alert("No pass for satellite " + station.name + " over Microsoft Ground Station WestUS"); 
               return false;
             }
             else if(response.status != 202)

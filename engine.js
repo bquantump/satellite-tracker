@@ -298,7 +298,7 @@ export class Engine {
     _setupLights = () => {
         const sun = new THREE.PointLight(0xffffff, 1, 0);
         //sun.position.set(0, 0, -149400000);
-        sun.position.set(0, 49333894, 197112541);
+        sun.position.set(0, 49333894, 187112541);
 
         const ambient = new THREE.AmbientLight(0x909090);
 
@@ -351,17 +351,6 @@ export class Engine {
 
         this.earth = group;
         this.scene.add(this.earth);
-
-        var x = -67;
-        var y = -22;
-        var z = -7368;
-        var pos = { x, y, z };
-        //var vec = latLon2Xyz2(pos, date);
-        //var vec = latLon2Xyz(6378.137,47.23930, -119.8855);
-        //var gs = new THREE.Sphere(1025, vec);
-
-        //var radius = 400;
-        //var height = 20000;
         
         const radius = 100;  
 
@@ -372,7 +361,7 @@ export class Engine {
             color      :  new THREE.Color("rgb(192,192,192)"),
             emissive   :  new THREE.Color("rgb(0,0,0)"),
             specular   :  new THREE.Color("rgb(200,155,255)"),
-            shininess  :  10,
+            shininess  :  7,
             shading    :  THREE.FlatShading,
             transparent: 1,
             opacity    : 1
@@ -412,7 +401,7 @@ export class Engine {
           //mesh.position.y = 0.734195730436108 * 6378;
           //mesh.position.z = 0.5886546626601008 * 6378;
           txtMesh.position.set(-0.338293241933552 * 6395, 0.734195730436108 * 6600, 0.5886546626601008 * 6410);
-          txtMesh.rotation.x = -Math.PI / 9;
+          txtMesh.rotation.x = -Math.PI / 5;
           txtMesh.rotation.y = -Math.PI / 10;
           group.add(txtMesh);
           //earth.add( mesh );
