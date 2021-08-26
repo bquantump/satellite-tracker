@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import earthmap from './assets/earthmap-high.jpg';
+//import earthmap from './assets/earthmap-high.jpg';
+import earthmap from './assets/2_no_clouds_16k.jpg';
 import circle from './assets/circle.png';
 import { parseTleFile as parseTleFile, getPositionFromTle, latLon2Xyz2, latLon2Xyz } from "./tle";
 import { earthRadius } from "satellite.js/lib/constants";
@@ -343,7 +344,7 @@ export class Engine {
             //emissive: 0x072534,
             side: THREE.DoubleSide,
             flatShading: false,
-            map: textLoader.load('http://shadedrelief.com/natural3/ne3_data/16200/textures/2_no_clouds_16k.jpg', this.render)
+            map: textLoader.load(earthmap, this.render)
         });
 
         const earth = new THREE.Mesh(geometry, material);
