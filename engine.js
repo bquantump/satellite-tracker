@@ -38,11 +38,11 @@ export class Engine {
         this.render();
 
         window.addEventListener('resize', this.handleWindowResize);
-        window.addEventListener('pointerdown', this.handleMouseDown);
+        window.addEventListener('pointerup', this.handleMouseDown);
     }
 
     dispose() {
-        window.removeEventListener('pointerdown', this.handleMouseDown);
+        window.removeEventListener('pointerup', this.handleMouseDown);
         window.removeEventListener('resize', this.handleWindowResize);
         //window.cancelAnimationFrame(this.requestID);
         
