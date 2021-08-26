@@ -22,7 +22,7 @@ class App extends Component {
         query: null,
         queryObjectCount: 0
     }
-    restUrl = "http://127.0.0.1:5000/TlePasses";
+    restUrl = "http://127.0.0.1:5000/submissions";
 
     componentDidMount() {
         this.engine = new Engine();

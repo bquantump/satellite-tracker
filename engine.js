@@ -301,8 +301,19 @@ export class Engine {
         sun.position.set(0, 49333894, 187112541);
 
         const ambient = new THREE.AmbientLight(0x909090);
-
-        this.scene.add(sun);
+        const spotLight = new THREE.SpotLight( 0xffffff );
+        spotLight.position.set(-0.338293241933552 * 6880, 0.734195730436108 * 7055, 0.5886546626601008 * 7500);
+        
+        spotLight.castShadow = true;
+        
+        spotLight.shadow.mapSize.width = 1024;
+        spotLight.shadow.mapSize.height = 1024;
+        
+        spotLight.shadow.camera.near = 500;
+        spotLight.shadow.camera.far = 4000;
+        spotLight.shadow.camera.fov = 30;
+        //this.scene.add(sun);
+        this.scene.add(spotLight)
         this.scene.add(ambient);
     }
 
@@ -352,16 +363,16 @@ export class Engine {
         this.earth = group;
         this.scene.add(this.earth);
         
-        const radius = 100;  
+        const radius = 75;  
 
         const detail = 2;  
-
+        //("rgb(192,192,192)"),
         const geometry2 = new THREE.OctahedronGeometry(radius, detail);
         var material2 = new THREE.MeshPhongMaterial({
-            color      :  new THREE.Color("rgb(192,192,192)"),
+            color      :  new THREE.Color("rgb(126,137,143)"),
             emissive   :  new THREE.Color("rgb(0,0,0)"),
             specular   :  new THREE.Color("rgb(200,155,255)"),
-            shininess  :  7,
+            shininess  :  1,
             shading    :  THREE.FlatShading,
             transparent: 1,
             opacity    : 1
