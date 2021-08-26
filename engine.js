@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import earthmap from './assets/earthmap-high.jpg';
 import circle from './assets/circle.png';
-import { parseTleFile as parseTleFile, getPositionFromTle } from "./tle";
+import { parseTleFile as parseTleFile, getPositionFromTle, latLon2Xyz2, latLon2Xyz } from "./tle";
 import { earthRadius } from "satellite.js/lib/constants";
 
 
@@ -143,12 +143,12 @@ export class Engine {
 
             points.push(new THREE.Vector3(pos.x, pos.y, pos.z));
         }
-
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
         var orbitCurve = new THREE.Line(geometry, this.orbitMaterial);
+        
+        //pyramid.rotation.x = Math.PI / 4;
         station.orbit = orbitCurve;
         station.mesh.material = this.selectedMaterial;
-
         this.earth.add(orbitCurve);
         this.render();
     }
@@ -297,8 +297,8 @@ export class Engine {
 
     _setupLights = () => {
         const sun = new THREE.PointLight(0xffffff, 1, 0);
-        sun.position.set(0, 0, -149400000);
-        //sun.position.set(0, 59333894, -137112541);
+        //sun.position.set(0, 0, -149400000);
+        sun.position.set(0, 49333894, 197112541);
 
         const ambient = new THREE.AmbientLight(0x909090);
 
@@ -332,7 +332,7 @@ export class Engine {
             //emissive: 0x072534,
             side: THREE.DoubleSide,
             flatShading: false,
-            map: textLoader.load(earthmap, this.render)
+            map: textLoader.load('http://shadedrelief.com/natural3/ne3_data/16200/textures/2_no_clouds_16k.jpg', this.render)
         });
 
         const earth = new THREE.Mesh(geometry, material);
@@ -352,8 +352,85 @@ export class Engine {
         this.earth = group;
         this.scene.add(this.earth);
 
+        var x = -67;
+        var y = -22;
+        var z = -7368;
+        var pos = { x, y, z };
+        //var vec = latLon2Xyz2(pos, date);
+        //var vec = latLon2Xyz(6378.137,47.23930, -119.8855);
+        //var gs = new THREE.Sphere(1025, vec);
+
+        //var radius = 400;
+        //var height = 20000;
+        
+        const radius = 100;  
+
+        const detail = 2;  
+
+        const geometry2 = new THREE.OctahedronGeometry(radius, detail);
+        var material2 = new THREE.MeshPhongMaterial({
+            color      :  new THREE.Color("rgb(192,192,192)"),
+            emissive   :  new THREE.Color("rgb(0,0,0)"),
+            specular   :  new THREE.Color("rgb(200,155,255)"),
+            shininess  :  10,
+            shading    :  THREE.FlatShading,
+            transparent: 1,
+            opacity    : 1
+          });
+        //var material2 = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: false } );
+        var cone = new THREE.Mesh(geometry2, material2);
+
+        cone.position.x = -0.338293241933552 * 6378
+        cone.position.y = 0.734195730436108 * 6378
+        cone.position.z = 0.5886546626601008 * 6378
+
+        var loader = new THREE.FontLoader();
+        loader.load( 'helvetiker_bold.typeface.json', function ( font ) {
+        
+          var textGeometry = new THREE.TextGeometry( "WestUS Ground Station", {
+        
+            font: font,
+        
+            size: 25,
+            height: 1,
+            curveSegments: 10,
+            bevelThickness: 1,
+            bevelSize: 1,
+            bevelEnabled: true
+        
+          });
+
+          var textMaterial = new THREE.MeshPhongMaterial( 
+            { color: 0xff0000, specular: 0xffffff }
+          );
+          textGeometry.center();
+          //textGeometry.computeBoundingBox();
+          //const center = textGeometry.boundingBox.getCenter(new THREE.Vector3());
+          var txtMesh = new THREE.Mesh( textGeometry, textMaterial );
+          //mesh.geometry.translate( 0.338293241933552 * 6378, 0.734195730436108 * 6378, 0.5886546626601008 * 6378)
+          //mesh.position.x = 0.338293241933552 * 6378;
+          //mesh.position.y = 0.734195730436108 * 6378;
+          //mesh.position.z = 0.5886546626601008 * 6378;
+          txtMesh.position.set(-0.338293241933552 * 6395, 0.734195730436108 * 6600, 0.5886546626601008 * 6410);
+          txtMesh.rotation.x = -Math.PI / 9;
+          txtMesh.rotation.y = -Math.PI / 10;
+          group.add(txtMesh);
+          //earth.add( mesh );
+        
+        });   
+
+        //cone.position.x = vec.x * 1;
+       //cone.position.y = vec.y * 1;
+        //cone.position.z = vec.z * -1;
+        //this.earth.add(label);
+        //cone.position.x = vec.x * 1;
+       //cone.position.y = vec.y * 1;
+        //cone.position.z = vec.z * -1;
+        //this.scene.add(cone);
+        this.earth.add(cone)
     }
 
+    
     _findStationFromMesh = (threeObject) => {
         for (var i = 0; i < this.stations.length; ++i) {
             const s = this.stations[i];

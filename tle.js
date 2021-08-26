@@ -1,5 +1,5 @@
 import * as satellite from 'satellite.js/lib/index';
-
+import * as THREE from "three";
 
 export const EarthRadius = 6371;
 
@@ -37,15 +37,19 @@ export const parseTleFile = (fileContent, stationOptions) => {
 // __ Satellite locations _________________________________________________
 
 
-const latLon2Xyz = (radius, lat, lon) => {
-    var phi   = (90-lat)*(Math.PI/180)
-    var theta = (lon+180)*(Math.PI/180)
+export const latLon2Xyz = (radius, lat, lon) => {
+    var phi   = (90-lat)*(Math.PI/180);
+    var theta = (lon+180)*(Math.PI/180);
+    var x = -((radius) * Math.sin(phi)*Math.cos(theta));
+    var z = ((radius) * Math.sin(phi)*Math.sin(theta));
+    var y = ((radius) * Math.cos(phi));
+    return toThree({ x, y, z });
+}
 
-    const x = -((radius) * Math.sin(phi) * Math.cos(theta))
-    const z = ((radius) * Math.sin(phi) * Math.sin(theta))
-    const y = ((radius) * Math.cos(phi))
-
-    return { x, y, z };
+export const latLon2Xyz2  = (pos, date) => {
+    const gmst = satellite.gstime(date);
+    const positionEcf = satellite.eciToEcf(pos, gmst);
+    return toThree(positionEcf);
 }
 
 const toThree = (v) => {
