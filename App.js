@@ -15,14 +15,13 @@ function getCorsFreeUrl(url) {
 
 
 class App extends Component {
-
     state = {
         selected: [],
         stations: [], 
         query: null,
         queryObjectCount: 0
     }
-    restUrl = "http://127.0.0.1:5000/submissions";
+    restUrl = process.env.REST_URL;
 
     componentDidMount() {
         this.engine = new Engine();

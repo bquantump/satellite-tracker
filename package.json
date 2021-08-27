@@ -8,7 +8,7 @@
     "build": "parcel build index.html",
     "publish": "parcel build index.html --public-url ./ --out-dir docs"
   },
-  "author": "David Suárez (github.com/dsuarezv)",
+  "author": "David Suárez (github.com/dsuarezv), bquantump (github.com/bquantump)",
   "dependencies": {
     "assets": "^3.0.1",
     "query-string": "6.10.1",
