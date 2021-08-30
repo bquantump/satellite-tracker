@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel index.html",
+    "start": "parcel index.html --port 62757 --host ",
     "build": "parcel build index.html",
     "publish": "parcel build index.html --public-url ./ --out-dir docs"
   },
   "author": "David Suárez (github.com/dsuarezv), bquantump (github.com/bquantump)",
   "dependencies": {
     "assets": "^3.0.1",
+    "cross-env": "^7.0.3",
     "query-string": "6.10.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
