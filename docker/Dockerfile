@@ -14,5 +14,3 @@ RUN git clone https://github.com/bquantump/satellite-tracker.git && cd satellite
 npm install && npm update && parcel build index.html
 
 RUN cp /satellite-tracker/helvetiker_bold.typeface.json /satellite-tracker/dist
-
-ENTRYPOINT ["npm", "start", "--prefix", "/satellite-tracker/"]
