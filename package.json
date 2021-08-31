@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel index.html --port 62757 --host ",
+    "start": "parcel index.html --port 80 --host ",
     "build": "parcel build index.html",
     "publish": "parcel build index.html --public-url ./ --out-dir docs"
   },
